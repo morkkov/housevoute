@@ -1,0 +1,221 @@
+/* Сбросим все отступы и поля по умолчанию */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Убираем отступы для html и body */
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Основной стиль для тела страницы */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin-bottom: 60px;
+}
+
+/* Контейнер для основного контента */
+.main-container {
+  display: flex;
+  justify-content: center; /* Центрирует элементы по горизонтали */
+  align-items: center; /* Центрирует элементы по вертикали */
+  min-height: 100vh; /* Задает минимальную высоту 100% от высоты экрана */
+  padding: 0 20px; /* Отступы по бокам */
+}
+
+/* Header */
+.App-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.create-poll-container {
+  margin-top: 20px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+/* Кнопка выхода */
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Контейнер для выбора роли */
+.role-selection-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Другие элементы */
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.input-field {
+  padding: 8px;
+  margin: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+/* Кнопки */
+.add-option-button {
+  background-color: #27ae60;
+}
+
+.add-option-button:hover {
+  background-color: #2ecc71;
+}
+
+.create-poll-button {
+  background-color: #8e44ad;
+}
+
+.create-poll-button:hover {
+  background-color: #9b59b6;
+}
+
+/* Центрирование блоков poll-container внутри контейнера с классом vote */
+.vote {
+  display: flex; /* Включаем flexbox */
+  flex-direction: column; /* Располагаем элементы по вертикали */
+  align-items: center; /* Центрируем по горизонтали */
+  justify-content: center; /* Центрируем по вертикали */
+  gap: 20px; /* Отступы между элементами */
+  padding: 20px; /* Отступы внутри контейнера */
+  width: 100%;
+}
+
+/* Контейнер для каждого опроса */
+.poll-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%; /* Можно установить фиксированную ширину или проценты */
+  margin-top: 10px;
+}
+
+.vote-button,
+.close-poll-button {
+  background-color: #16a085;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.vote-button:hover,
+.close-poll-button:hover {
+  background-color: #1abc9c;
+}
+
+.option-container {
+  margin: 10px 0;
+}
+
+.role-button {
+  background-color: #f39c12;
+  color: white;
+}
+
+.role-button:hover {
+  background-color: #f1c40f;
+}
+
+h2 {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.list_of_polls {
+}
+
+.z3 {
+  width: 80%;
+}
+
+.App-footer {
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+}
+
+.footer-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+footer {
+  position: relative;
+  padding: 20px;
+  background-color: #f1f1f1;
+}
