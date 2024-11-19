@@ -10,6 +10,11 @@ const PORT = 3000;
 // Путь к файлу данных
 const DATA_FILE = path.join(__dirname, "data.json");
 
+// Массив для хранения пользователей (замените на базу данных при необходимости)
+let users = [
+  { email: "admin@admin.com", password: "123", role: "администратор" }, // Предустановленный администратор
+];
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -143,11 +148,49 @@ app.delete("/polls/:id", (req, res) => {
     return res.status(404).json({ error: "Опрос не найден" });
   }
 
-  // Удаляем опрос из массива
   data.polls.splice(pollIndex, 1);
   writeData(data);
 
   res.json({ message: "Опрос удален" });
+});
+
+// Регистрация пользователя
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email и пароль обязательны" });
+  }
+
+  const userExists = users.find((user) => user.email === email);
+  if (userExists) {
+    return res
+      .status(400)
+      .json({ error: "Пользователь с таким email уже существует" });
+  }
+
+  const newUser = { email, password, role: "житель" };
+  users.push(newUser);
+
+  res.status(201).json({
+    message: "Регистрация успешна",
+    user: { email, role: newUser.role },
+  });
+});
+
+// Авторизация пользователя
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  const user = users.find((u) => u.email === email && u.password === password);
+  if (!user) {
+    return res.status(401).json({ error: "Неверный email или пароль" });
+  }
+
+  res.json({
+    message: "Авторизация успешна",
+    user: { email, role: user.role },
+  });
 });
 
 // Обработка ошибок для несуществующих маршрутов

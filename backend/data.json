@@ -2,151 +2,30 @@
   "polls": [
     {
       "id": 1,
-      "question": "1",
+      "question": "Какие неисправности в вашей квартире?",
       "options": [
         {
           "id": 1,
-          "text": "1 2",
-          "votes": 1
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 2,
-      "question": "how are u",
-      "options": [
-        {
-          "id": 1,
-          "text": "good",
-          "votes": 4
+          "text": "Нет воды",
+          "votes": 2
         },
         {
           "id": 2,
-          "text": "bad",
-          "votes": 0
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 3,
-      "question": "d",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 0
+          "text": "Нет света",
+          "votes": 2
         },
         {
-          "id": 2,
-          "text": "1]2",
-          "votes": 4
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 4,
-      "question": "d",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 4
-        },
-        {
-          "id": 2,
-          "text": "1]2",
-          "votes": 20
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 5,
-      "question": "а",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 0
-        },
-        {
-          "id": 2,
-          "text": "2",
-          "votes": 0
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 6,
-      "question": "а",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 0
-        },
-        {
-          "id": 2,
-          "text": "2",
-          "votes": 0
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 7,
-      "question": "а",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
+          "id": 3,
+          "text": "Проблемы с канализацией",
           "votes": 1
         },
         {
-          "id": 2,
-          "text": "2",
+          "id": 4,
+          "text": "Проблемы с отоплением",
           "votes": 0
         }
       ],
-      "active": false
-    },
-    {
-      "id": 8,
-      "question": "а",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 0
-        },
-        {
-          "id": 2,
-          "text": "2",
-          "votes": 1
-        }
-      ],
-      "active": false
-    },
-    {
-      "id": 9,
-      "question": "а",
-      "options": [
-        {
-          "id": 1,
-          "text": "1",
-          "votes": 0
-        },
-        {
-          "id": 2,
-          "text": "2",
-          "votes": 0
-        }
-      ],
-      "active": false
+      "active": true
     }
   ]
 }

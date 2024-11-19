@@ -1,61 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Footer from "./Footer";
-import Register from "./Register";
-import RegistrationModal from "./RegistrationModal";
-import MainContent from "./MainContent"; // Импорт вашего основного компонента
+import Footer from "./Footer"; // Импортируем футер
 
 function App() {
-  const [role, setRole] = useState(null);
-  const [polls, setPolls] = useState([]);
-  const [newPoll, setNewPoll] = useState({ question: "", options: [""] });
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [responseMessage, setResponseMessage] = useState("");
-  const [hasVoted, setHasVoted] = useState(false);
+  const [role, setRole] = useState(null); // Роль пользователя: "житель" или "администратор"
+  const [polls, setPolls] = useState([]); // Список опросов
+  const [newPoll, setNewPoll] = useState({ question: "", options: [""] }); // Для создания нового опроса
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Статус аутентификации пользователя
+  const [responseMessage, setResponseMessage] = useState(""); // Сообщение для пользователя после голосования
+  const [hasVoted, setHasVoted] = useState(false); // Статус того, проголосовал ли пользователь
 
-  const [showModal, setShowModal] = useState(true);
-  const [userData, setUserData] = useState(null);
-
+  // Функция для выбора роли
   const handleRoleSelect = (selectedRole) => {
     setRole(selectedRole);
-    setIsAuthenticated(true);
+    setIsAuthenticated(true); // Устанавливаем, что пользователь вошел в систему
   };
 
-  const handleRegister = async (formData) => {
-    const response = await fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.error || "Ошибка регистрации");
-    }
-
-    setIsAuthenticated(true);
-  };
-
-  const renderMainSite = () => (
-    <div className="main-site">
-      <h1>Добро пожаловать в систему голосования!</h1>
-      <p>Здесь будет ваш основной функционал сайта.</p>
-      {/* Оставьте всю логику и компоненты, которые были в вашем сайте */}
-    </div>
-  );
-
+  // Функция для выхода из аккаунта
   const handleLogout = () => {
-    setRole(null);
-    setIsAuthenticated(false);
-    setHasVoted(false);
+    setRole(null); // Очищаем роль
+    setIsAuthenticated(false); // Очищаем статус аутентификации
+    setHasVoted(false); // Очищаем статус голосования
   };
 
+  // Функция для получения всех опросов
   const fetchPolls = async () => {
     const response = await fetch("http://localhost:3000/polls");
     const data = await response.json();
     setPolls(data);
   };
 
+  // Функция для создания нового опроса
   const handleCreatePoll = async () => {
     const response = await fetch("http://localhost:3000/polls", {
       method: "POST",
@@ -63,10 +38,12 @@ function App() {
       body: JSON.stringify(newPoll),
     });
     const data = await response.json();
-    setPolls([...polls, data]);
+    setPolls([...polls, data]); // Добавляем новый опрос в список
   };
 
+  // Функция для голосования в опросе
   const handleVote = async (pollId, optionId) => {
+    // Если пользователь уже проголосовал, не позволяем проголосовать снова
     if (hasVoted) {
       setResponseMessage("Вы уже проголосовали в этом опросе.");
       return;
@@ -78,11 +55,12 @@ function App() {
       body: JSON.stringify({ optionId }),
     });
     const data = await response.json();
-    setResponseMessage("Ваш ответ записан!");
-    setHasVoted(true);
-    fetchPolls();
+    setResponseMessage("Ваш ответ записан!"); // Сообщение для пользователя
+    setHasVoted(true); // Обновляем статус, что пользователь проголосовал
+    fetchPolls(); // Обновляем список опросов после голосования
   };
 
+  // Функция для закрытия опроса
   const handleClosePoll = async (pollId) => {
     const response = await fetch(
       `http://localhost:3000/polls/${pollId}/close`,
@@ -91,21 +69,23 @@ function App() {
       }
     );
     const data = await response.json();
-    fetchPolls();
+    fetchPolls(); // Обновляем список опросов после закрытия
   };
 
+  // Функция для удаления опроса
   const handleDeletePoll = async (pollId) => {
     const response = await fetch(`http://localhost:3000/polls/${pollId}`, {
       method: "DELETE",
     });
 
     if (response.ok) {
-      setPolls(polls.filter((poll) => poll.id !== pollId));
+      setPolls(polls.filter((poll) => poll.id !== pollId)); // Обновляем список после удаления
     } else {
       setResponseMessage("Ошибка при удалении опроса.");
     }
   };
 
+  // Рендер компонентов для создания опросов и голосования
   const renderPolls = () => {
     return polls.map((poll) => (
       <div key={poll.id} className="poll-container">
@@ -118,7 +98,7 @@ function App() {
                 <button
                   className="vote-button"
                   onClick={() => handleVote(poll.id, option.id)}
-                  disabled={hasVoted}
+                  disabled={hasVoted} // Отключаем кнопку после голосования
                 >
                   {option.text}
                 </button>
@@ -153,6 +133,7 @@ function App() {
     ));
   };
 
+  // Рендеринг для создания нового опроса
   const renderCreatePoll = () => {
     return (
       <div className="create-poll-container">
@@ -199,6 +180,7 @@ function App() {
     );
   };
 
+  // Рендер выбора роли
   const renderRoleSelection = () => {
     return (
       <div className="role-selection-container">
@@ -219,6 +201,7 @@ function App() {
     );
   };
 
+  // Рендер в зависимости от выбранной роли
   const renderMainContent = () => {
     if (role === null) {
       return renderRoleSelection();
@@ -244,6 +227,7 @@ function App() {
     }
   };
 
+  // Загружаем опросы при изменении роли или при первой загрузке
   useEffect(() => {
     if (role !== null) {
       fetchPolls();
@@ -252,13 +236,24 @@ function App() {
 
   return (
     <div className="App">
-      {showModal && (
-        <RegistrationModal
-          onClose={() => setShowModal(false)}
-          onRegister={handleRegister}
-        />
-      )}
-      {!showModal && <MainContent userData={userData} />}
+      {/* Header */}
+      <header className="App-header">
+        <div className="header-content">
+          <h1>Голосование в жилом доме</h1>
+          {isAuthenticated && (
+            <button className="logout-button" onClick={handleLogout}>
+              Выйти
+            </button>
+          )}
+        </div>
+      </header>
+      <div className="c">
+        {/* Main Content */}
+        {renderMainContent()}
+      </div>
+
+      {/* Footer только если роль выбрана */}
+      {role !== null && <Footer />}
     </div>
   );
 }
