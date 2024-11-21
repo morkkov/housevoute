@@ -7,24 +7,19 @@ const cors = require("cors");
 const app = express();
 const PORT = 3000;
 
-// Путь к файлу данных
 const DATA_FILE = path.join(__dirname, "data.json");
 
-// Массив для хранения пользователей (замените на базу данных при необходимости)
 let users = [
-  { email: "admin@admin.com", password: "123", role: "администратор" }, // Предустановленный администратор
+  { email: "admin@admin.com", password: "123", role: "администратор" },
 ];
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Проверка существования файла данных
 if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify({ polls: [] }, null, 2), "utf-8");
 }
 
-// Чтение данных из файла
 function readData() {
   try {
     const data = fs.readFileSync(DATA_FILE, "utf-8");
@@ -35,7 +30,6 @@ function readData() {
   }
 }
 
-// Запись данных в файл
 function writeData(data) {
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
@@ -44,20 +38,15 @@ function writeData(data) {
   }
 }
 
-// API маршруты
-
-// Корневой маршрут
 app.get("/", (req, res) => {
   res.send("Добро пожаловать на сервер голосования!");
 });
 
-// Получение всех опросов
 app.get("/polls", (req, res) => {
   const data = readData();
   res.json(data.polls);
 });
 
-// Создание нового опроса
 app.post("/polls", (req, res) => {
   const { question, options } = req.body;
 
@@ -85,7 +74,6 @@ app.post("/polls", (req, res) => {
   res.status(201).json(newPoll);
 });
 
-// Завершение опроса
 app.patch("/polls/:id/close", (req, res) => {
   const pollId = parseInt(req.params.id, 10);
   const data = readData();
@@ -101,7 +89,6 @@ app.patch("/polls/:id/close", (req, res) => {
   res.json({ message: "Опрос завершен", poll });
 });
 
-// Голосование в опросе
 app.post("/polls/:id/vote", (req, res) => {
   const pollId = parseInt(req.params.id, 10);
   const { optionId } = req.body;
@@ -125,7 +112,6 @@ app.post("/polls/:id/vote", (req, res) => {
   res.json({ message: "Голос засчитан", poll });
 });
 
-// Получение статистики опросов
 app.get("/polls/:id/stats", (req, res) => {
   const pollId = parseInt(req.params.id, 10);
   const data = readData();
@@ -138,7 +124,6 @@ app.get("/polls/:id/stats", (req, res) => {
   res.json(poll);
 });
 
-// Удаление опроса
 app.delete("/polls/:id", (req, res) => {
   const pollId = parseInt(req.params.id, 10);
   const data = readData();
@@ -154,7 +139,6 @@ app.delete("/polls/:id", (req, res) => {
   res.json({ message: "Опрос удален" });
 });
 
-// Регистрация пользователя
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
@@ -178,7 +162,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-// Авторизация пользователя
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
@@ -193,12 +176,10 @@ app.post("/login", (req, res) => {
   });
 });
 
-// Обработка ошибок для несуществующих маршрутов
 app.use((req, res) => {
   res.status(404).json({ error: "Маршрут не найден" });
 });
 
-// Запуск сервера
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
