@@ -148,7 +148,7 @@ function App() {
   // Функция для голосования в опросе
   const handleVote = async (pollId, optionId) => {
     if (hasVoted) {
-      setResponseMessage("Вы уже проголосовали в этом опросе.");
+      setResponseMessage("Вы уже проголосовали.");
       return;
     }
 
@@ -159,53 +159,55 @@ function App() {
     });
 
     if (response.ok) {
-      setResponseMessage("Ваш ответ записан!");
+      setResponseMessage("Ваш голос учтен!");
       setHasVoted(true);
       fetchPolls();
     } else {
-      setResponseMessage("Ошибка при записи ответа.");
+      setResponseMessage("Ошибка при голосовании.");
     }
-  };
-
-  const handleCustomVote = (pollId) => {
-    console.log(`Пользователь ввел: ${customInput} для опроса ${pollId}`);
-    setHasVoted(true);
-    setShowInputIndex(null);
   };
 
   const renderPolls = () => {
     return polls.map((poll) => (
       <div key={poll.id} className="poll-container">
         <h3>{poll.question}</h3>
-        <div>
-          {poll.options.map((option, index) => (
-            <div key={option.id} className="option-container">
-              <button
-                className="vote-button"
-                onClick={() => handleVote(poll.id, option.id, index)}
-                disabled={hasVoted}
-              >
-                {option.text}
-              </button>
-            </div>
-          ))}
-          {/* Отображаем input для последней кнопки */}
-          {showInputIndex !== null &&
-            showInputIndex === poll.options.length - 1 && (
+        {poll.active ? (
+          <div>
+            <h4>Варианты:</h4>
+            {poll.options.map((option) => (
+              <div key={option.id} className="option-container">
+                <button
+                  className="vote-button"
+                  onClick={() => handleVote(poll.id, option.id)}
+                  disabled={hasVoted}
+                >
+                  {option.text}
+                </button>
+                {role === "администратор" && (
+                  <span className="vote-count">({option.votes} голосов)</span>
+                )}
+              </div>
+            ))}
+            {role === "администратор" && (
               <div>
-                <input
-                  type="text"
-                  className="input-field"
-                  value={customInput}
-                  onChange={(e) => setCustomInput(e.target.value)}
-                  placeholder="Введите свой ответ"
-                />
-                <button onClick={() => handleCustomVote(poll.id)}>
-                  Отправить
+                <button
+                  className="close-poll-button"
+                  onClick={() => handleClosePoll(poll.id)}
+                >
+                  Закрыть опрос
+                </button>
+                <button
+                  className="delete-poll-button"
+                  onClick={() => handleDeletePoll(poll.id)}
+                >
+                  Удалить опрос
                 </button>
               </div>
             )}
-        </div>
+          </div>
+        ) : (
+          <p>Опрос завершен</p>
+        )}
       </div>
     ));
   };
